@@ -1,0 +1,9 @@
+asgiref==3.8.1
+Django==4.2.14
+django-tailwindcss==0.4.0
+npm==0.1.1
+optional-django==0.1.0
+pillow==10.4.0
+sqlparse==0.5.1
+tailwindcss==0.0.1
+typing_extensions==4.12.2
