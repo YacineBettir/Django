@@ -1,6 +1,6 @@
 from django.shortcuts import redirect,render,get_object_or_404
 from .models import item
-from .forms import NewItemForm
+from .forms import NewItemForm,EditItemForm
 from django.contrib.auth.decorators import login_required
 def detail(request, id):
     items=get_object_or_404(item,id=id)
@@ -27,6 +27,31 @@ def newitem(request):
     context={
             'form':form,
             'title':'New Item'
+        }
+    return render(request,
+            'item/forms.html',
+                  context=context
+                  )
+@login_required()
+def delte_item(request,id):
+    itm=get_object_or_404(item,id=id,created_by=request.user)
+    itm.delete()
+    return  redirect('dashboard:index')
+
+def edititem(request,id):
+    itm=get_object_or_404(item,id=id,created_by=request.user)
+
+    if request.method=="POST":
+        form=EditItemForm(request.POST,request.FILES,instance=itm)
+        if form.is_valid():
+            form.save()
+            return redirect('item:detail',
+                          id=itm.id )
+    else:
+         form = EditItemForm(instance=itm)
+    context={
+            'form':form,
+            'title':'Edit Item'
         }
     return render(request,
             'item/forms.html',
