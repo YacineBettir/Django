@@ -5,6 +5,7 @@ app_name='item'
 
 
 urlpatterns= [
+    path("",views.browse,name='browse'),
     path('<int:id>/',views.detail,name='detail'),
     path('new/',views.newitem,name='new-item'),
     path('<int:id>/del/',views.delte_item,name='delete'),
