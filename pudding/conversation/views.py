@@ -1,14 +1,14 @@
 from django.shortcuts import redirect,render,get_object_or_404
-from item.models import item
+from item.models import item as I
 from .models import  Conversation
 from .forms import  ConversationMesaageForm
 def new_conversation(request,item_id):
-    items=get_object_or_404(item,id=item_id)
+    item=get_object_or_404(I,id=item_id)
 
-    if items.created_by==request.user:
+    if item.created_by==request.user:
         return redirect('dashboard:index')
 
-    conversations=Conversation.objects.filter(items=items).filter(member__in=[request.user.id])
+    conversations=Conversation.objects.filter(item=item).filter(members__in=[request.user.id])
 
     if conversations:
         pass
@@ -17,7 +17,7 @@ def new_conversation(request,item_id):
         form=ConversationMesaageForm(request.POST)
 
         if form.is_valid():
-            conversation=Conversation.objects.create(items=items)
+            conversation=Conversation.objects.create(item=item)
             conversation.members.add(request.user)
             conversation.members.add(items.created_by)
             conversation.save()
