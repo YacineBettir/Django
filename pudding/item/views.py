@@ -7,7 +7,7 @@ from django.contrib.auth.decorators import login_required
 
 
 def browse(request):
-    query=request.GET.get('query',)
+    query=request.GET.get('query','')
     category_id=request.GET.get('category',0)
     items=item.objects.filter(is_sold=False)
     categories=Category.objects.all()
